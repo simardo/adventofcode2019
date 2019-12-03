@@ -1,0 +1,11 @@
+{
+    "editor.detectIndentation": false,
+    "files.exclude": {
+        "**/*/*.js": true,
+        "**/types/": true,
+        "**/node_modules/": true
+    },
+    "editor.tabSize": 4,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true
+}

@@ -1,0 +1,14 @@
+{
+    "name": "adventofcode2019",
+    "version": "1.0.0",
+    "description": "",
+    "scripts": {
+        "build": "tsc"
+    },
+    "author": "Martin Simard",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/node": "^12.12.14",
+        "typescript": "^3.7.2"
+    }
+}
