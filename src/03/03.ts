@@ -1,4 +1,4 @@
-import { INPUT_03_A, INPUT_03_B } from './input';
+import { INPUT_03_A, INPUT_03_B, INPUT_03_Y, INPUT_03_Z } from './input';
 
 class Move {
     private static INST_REGEXP: RegExp = /([RDUL])(\d+)/;
@@ -45,37 +45,58 @@ let hmax: number = 0;
 // console.log(wmin, wmax);
 // console.log(hmin, hmax);
 
-const grid: number[][] = new Array(20000);
+const grid: string[][] = new Array(20000);
 grid.fill(new Array(20000));
 
-const CENTRAL_PORT_X: number = 17500;
-let CENTRAL_PORT_Y: number = 11300;
+const CENTRAL_PORT_X: number = 1000; // 17500;
+let CENTRAL_PORT_Y: number = 1000; // 11300;
 
-let x: number = CENTRAL_PORT_X;
-let y: number = CENTRAL_PORT_Y;
+let x: number;
+let y: number;
 
-grid[x][y] = 0;
+function update(argX: number, argY: number, tag: string): void {
+    const current: string | undefined = grid[argX][argY];
+    grid[argX][argY] = current === undefined
+        ? tag
+        : current.indexOf(tag) < 0
+            ? current + tag
+            : current;
 
-function update(argX: number, argY: number): void {
-    grid[argX][argY] = grid[argX][argY] === undefined ? 0 : grid[argX][argY] + 1;
+    console.log(argX, argY, grid[argX][argY]);
 }
 
-INPUT_03_A.split(',').forEach(v => {
-    // let gridIterator: (value: number) => void;
+function handleWire(wirePath: string, tag: string): void {
+    x = CENTRAL_PORT_X;
+    y = CENTRAL_PORT_Y;
 
-    const m: Move = new Move(v);
-    if (m.direction === 'R') {
-        Array(m.steps).forEach(v => update(++x, y));
-    } else if (m.direction === 'L') {
-        Array(m.steps).forEach(v => update(--x, y));
-    } else if (m.direction === 'U') {
-        Array(m.steps).forEach(v => update(x, y--));
-    } else if (m.direction === 'D') {
-        Array(m.steps).forEach(v => update(x, y++));
-    }
-});
+    update(x, y, tag);
 
+    wirePath.split(',').forEach(v => {
+        // let gridIterator: (value: number) => void;
 
+        const m: Move = new Move(v);
+        const a: Array<undefined> = Array(m.steps).fill(undefined);
+        if (m.direction === 'R') {
+            a.forEach(v => update(++x, y, tag));
+        } else if (m.direction === 'L') {
+            a.forEach(v => update(--x, y, tag));
+        } else if (m.direction === 'U') {
+            a.forEach(v => update(x, --y, tag));
+        } else if (m.direction === 'D') {
+            a.forEach(v => update(x, ++y, tag));
+        }
 
+        console.log(m);
+    });
+}
 
+handleWire(INPUT_03_Y, 'A');
+handleWire(INPUT_03_Z, 'B');
 
+// for (let x: number = 0; x < grid.length; x++) {
+//     for (let y: number = 0; y < grid[x].length; y++) {
+//         if (grid[x][y] && grid[x][y].length == 2) {
+//             console.log(x, y, grid[x][y]);
+//         }
+//     }
+// }
