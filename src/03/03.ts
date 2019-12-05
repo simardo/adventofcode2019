@@ -19,6 +19,8 @@ class Move {
     }
 }
 
+// uncomment to calculate grid size
+
 // let w: number = 0;
 // let wmin: number = 0;
 // let wmax: number = 0;
