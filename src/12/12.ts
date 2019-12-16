@@ -1,5 +1,7 @@
 import { INPUT_12 } from "./input";
 
+console.log('12 décembre');
+
 interface Moon {
     x: number;
     y: number;
