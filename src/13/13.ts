@@ -316,7 +316,7 @@ setInterval(() => {
 }, 300);
 
 let index = 0;
-let o: number = 0;
+let o: number = 1;
 
 function render(): void {
     let x: number = 0;
@@ -329,9 +329,17 @@ function render(): void {
             // o = o >= 50 ? 0 : o + 1;
             // readline.cursorTo(process.stdout, 50, o);
             // process.stdout.write(`${arcade2.outputs[index - 2]}, ${arcade2.outputs[index - 1]}, ${arcade2.outputs[index]}`);
+            // if (arcade2.outputs[index] === 3) {
+            //     readline.cursorTo(process.stdout, 50, o++);
+            //     process.stdout.write(`PADDLE: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
+            // }
+            // if (arcade2.outputs[index] === 4) {
+            //     readline.cursorTo(process.stdout, 70, o++);
+            //     process.stdout.write(`BALL: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
+            // }
             if (x === -1) {
                 readline.cursorTo(process.stdout, 1, 30);
-                process.stdout.write('SCORE: ' + arcade2.outputs[index].toString());
+                process.stdout.write(`SCORE: ${arcade2.outputs[index]}`);
             } else {
                 readline.cursorTo(process.stdout, x + 1, y + 1);
                 process.stdout.write(
