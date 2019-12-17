@@ -304,130 +304,48 @@ const memory: number[] = [...INPUT_13];
 memory[0] = 2;
 const arcade2: IntCode = new IntCode(0, [...memory]);
 
-let input: number = 1;
+let input: number = 0;
 
 const readline = require('readline');
+let rendering: boolean;
 
-const moves: {[key: number]: number} = {};
-moves[0] = 1; // 18
-moves[1] = 0;
-moves[85] = -1;
-moves[88] = -1; // 14
-moves[89] = 0;
-moves[243] = -1;
-moves[248] = -1; // 8
-moves[249] = 0;
-moves[287] = -1;
-moves[290] = -1; // 4
-moves[291] = 0;
-moves[355] = 1;
-moves[356] = 1; // 6
-moves[357] = 0;
-moves[537] = 1;
-moves[538] = 1; // 8
-moves[539] = 0;
-moves[739] = -1;
-moves[744] = -1; // 2
-moves[745] = 0;
-moves[835] = 1;
-moves[840] = 1; // 8
-moves[841] = 0;
-moves[1055] = -1;
-moves[1060] = -1; // 2
-moves[1061] = 0;
-moves[1211] = 1;
-moves[1224] = 1; // 16
-moves[1225] = 0;
-moves[1715] = -1;
-moves[1718] = -1; // 12
-moves[1719] = 0;
-moves[1875] = 1;
-moves[1882] = 1; // 20
-moves[1883] = 0;
-moves[1981] = -1;
-moves[1998] = -1; // 2
-moves[1999] = 0;
-moves[2269] = 1;
-moves[2297] = 0; // 30
-moves[2307] = -1;
-moves[2316] = 0; // 21
-moves[2356] = 1;
-moves[2367] = 0; // 32
-moves[2428] = -1;
-moves[2453] = 0; // 7?
-moves[2460] = -1;
-moves[2461] = 0; // 6
-moves[2476] = 1;
-moves[2478] = 0; // 8
-moves[2890] = 1;
-moves[2900] = 0; // 18
-moves[2929] = -1;
-moves[2938] = 0; // 9
-moves[2945] = 1;
-moves[2946] = 0; // 10
-moves[3043] = 1;
-moves[3065] = 0; // 32
-moves[3080] = -1;
-moves[3104] = 0; // 10
-
-let iteration: number = 0;
-
-function loop(t: number) {
-    setTimeout(() => {
-        if (!arcade2.terminate) {
-            const m: number = moves[iteration];
-            if (m !== undefined) {
-                input = m;
-            }
-            arcade2.run(input);
-            iteration++;
-            // input = 0;
-            render();
-            loop(iteration >= 3100 ? 250 : 1);
-        } else {
-            console.log('GAME OVER', maxScore);
-            process.exit();
-        }
-    }, t);
-}
-
-loop(5);
+setInterval(() => {
+    if (!arcade2.terminate) {
+        arcade2.run(input);
+        input = 0;
+        render();
+    } else {
+        console.log('GAME OVER', maxScore);
+        process.exit();
+    }
+}, 300);
 
 let index = 0;
-let o: number = 0;
+let o: number = 1;
 let maxScore: number = 0;
-
-let paddleAt: number;
-let lastSuccesPaddle: number = 0;
 
 function render(): void {
     let x: number = 0;
     let y: number = 0;
 
+    rendering = true;
+
     while (index < arcade2.outputs.length) {
         if ((index + 1) % 3 === 0) {
-            if (arcade2.outputs[index] === 0) {
-                // readline.cursorTo(process.stdout, 90, o++);
-                // process.stdout.write(`RESET: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
-            }
+            // o = o >= 50 ? 0 : o + 1;
+            // readline.cursorTo(process.stdout, 50, o);
+            // process.stdout.write(`${arcade2.outputs[index - 2]}, ${arcade2.outputs[index - 1]}, ${arcade2.outputs[index]}`);
             if (arcade2.outputs[index] === 3) {
-                paddleAt = x;
-
-                // readline.cursorTo(process.stdout, 50, o);
-                // process.stdout.write('            ');
-                // readline.cursorTo(process.stdout, 50, o++);
-                // process.stdout.write(`PADDLE: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
+                readline.cursorTo(process.stdout, 50, o);
+                process.stdout.write('            ');
+                readline.cursorTo(process.stdout, 50, o++);
+                process.stdout.write(`PADDLE: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
             }
             if (arcade2.outputs[index] === 4) {
-                if (y === 21) {
-                    readline.cursorTo(process.stdout, 1, 31);
-                    process.stdout.write(`TARGET: ${x} - ${iteration - 1}, PADDLE AT: ${paddleAt}`);
-                }
-
-                // readline.cursorTo(process.stdout, 70, o);
-                // process.stdout.write('               ');
-                // readline.cursorTo(process.stdout, 70, o++);
-                // process.stdout.write(`BALL: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
+                readline.cursorTo(process.stdout, 70, o);
+                process.stdout.write('            ');
+                readline.cursorTo(process.stdout, 70, o++);
+                process.stdout.write(`BALL: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
             }
             if (o >= 50) {
                 o = 1;
@@ -436,8 +354,6 @@ function render(): void {
                 readline.cursorTo(process.stdout, 1, 30);
                 process.stdout.write(`SCORE: ${arcade2.outputs[index]}`);
                 maxScore = Math.max(maxScore, arcade2.outputs[index]);
-                readline.cursorTo(process.stdout, 50, o++);
-                process.stdout.write(`${arcade2.outputs[index]}`);
             } else {
                 readline.cursorTo(process.stdout, x + 1, y + 1);
                 process.stdout.write(
@@ -459,6 +375,8 @@ function render(): void {
         }
         index++;
     }
+
+    rendering = false;
 }
 
 readline.emitKeypressEvents(process.stdin);
