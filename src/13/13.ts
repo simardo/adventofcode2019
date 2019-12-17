@@ -368,7 +368,11 @@ moves[2946] = 0; // 10
 moves[3043] = 1;
 moves[3065] = 0; // 32
 moves[3080] = -1;
-moves[3104] = 0; // 10
+moves[3103] = 0; // 9
+moves[3131] = 1;
+moves[3141] = 0; // 19
+moves[3141] = -1; // 19
+moves[3147] = 0; // 12
 
 let iteration: number = 0;
 
@@ -383,7 +387,7 @@ function loop(t: number) {
             iteration++;
             // input = 0;
             render();
-            loop(iteration >= 3100 ? 250 : 1);
+            loop(iteration >= 3139 ? 250 : 1);
         } else {
             console.log('GAME OVER', maxScore);
             process.exit();
