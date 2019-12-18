@@ -304,77 +304,39 @@ const memory: number[] = [...INPUT_13];
 memory[0] = 2;
 const arcade2: IntCode = new IntCode(0, [...memory]);
 
-let input: number = 1;
+let input: number = 0;
 
 const readline = require('readline');
 
-const moves: {[key: number]: number} = {};
-moves[0] = 1; // 18
-moves[1] = 0;
-moves[85] = -1;
-moves[88] = -1; // 14
-moves[89] = 0;
+const moves: { [key: number]: number } = {};
+moves[3] = 1;
+// moves[9] = 0; // 23
+// moves[8] = 1;
+moves[15] = 0; // 29
+moves[20] = 1;
+moves[21] = 0; // 30
+moves[45] = 1;
+moves[47] = 0; // 32
+moves[175] = -1;
+moves[183] = 0; // 24
 moves[243] = -1;
-moves[248] = -1; // 8
-moves[249] = 0;
-moves[287] = -1;
-moves[290] = -1; // 4
-moves[291] = 0;
-moves[355] = 1;
-moves[356] = 1; // 6
-moves[357] = 0;
-moves[537] = 1;
-moves[538] = 1; // 8
-moves[539] = 0;
-moves[739] = -1;
-moves[744] = -1; // 2
-moves[745] = 0;
-moves[835] = 1;
-moves[840] = 1; // 8
-moves[841] = 0;
-moves[1055] = -1;
-moves[1060] = -1; // 2
-moves[1061] = 0;
-moves[1211] = 1;
-moves[1224] = 1; // 16
-moves[1225] = 0;
-moves[1715] = -1;
-moves[1718] = -1; // 12
-moves[1719] = 0;
-moves[1875] = 1;
-moves[1882] = 1; // 20
-moves[1883] = 0;
-moves[1981] = -1;
-moves[1998] = -1; // 2
-moves[1999] = 0;
-moves[2269] = 1;
-moves[2297] = 0; // 30
-moves[2307] = -1;
-moves[2316] = 0; // 21
-moves[2356] = 1;
-moves[2367] = 0; // 32
-moves[2428] = -1;
-moves[2453] = 0; // 7?
-moves[2460] = -1;
-moves[2461] = 0; // 6
-moves[2476] = 1;
-moves[2478] = 0; // 8
-moves[2890] = 1;
-moves[2900] = 0; // 18
-moves[2929] = -1;
-moves[2938] = 0; // 9
-moves[2945] = 1;
-moves[2946] = 0; // 10
-moves[3043] = 1;
-moves[3065] = 0; // 32
-moves[3080] = -1;
-moves[3103] = 0; // 9
-moves[3131] = 1;
-moves[3141] = 0; // 19
-moves[3141] = -1; // 19
-moves[3147] = 0; // 12
+moves[245] = 0; // 22
+moves[264] = 1;
+moves[265] = 0; // 23
+moves[292] = 1;
+moves[299] = 0; // 30
+moves[303] = -1;
+moves[313] = 0; // 20
+moves[373] = 1;
+moves[383] = 0; // 30
+moves[515] = 1;
+moves[517] = 0; // 32
+moves[699] = -1;
+moves[793] = 0; // 26
+moves[805] = 0; // 18
 
 let iteration: number = 0;
+const scores: number[] = [];
 
 function loop(t: number) {
     setTimeout(() => {
@@ -385,11 +347,15 @@ function loop(t: number) {
             }
             arcade2.run(input);
             iteration++;
-            // input = 0;
+            const max: number = Object.keys(moves).reduce((m, v) => Math.max(m, Number.parseInt(v)), 0) - 3;
+            // if (iteration > max + 3) {
+            //     input = 0;
+            // }
             render();
-            loop(iteration >= 3139 ? 250 : 1);
+            loop(iteration >= max ? 150 : 1);
         } else {
             console.log('GAME OVER', maxScore);
+            // console.log(scores.reverse());
             process.exit();
         }
     }, t);
@@ -402,7 +368,6 @@ let o: number = 0;
 let maxScore: number = 0;
 
 let paddleAt: number;
-let lastSuccesPaddle: number = 0;
 
 function render(): void {
     let x: number = 0;
@@ -425,7 +390,7 @@ function render(): void {
             if (arcade2.outputs[index] === 4) {
                 if (y === 21) {
                     readline.cursorTo(process.stdout, 1, 31);
-                    process.stdout.write(`TARGET: ${x} - ${iteration - 1}, PADDLE AT: ${paddleAt}`);
+                    process.stdout.write(`TARGET: ${x} - ${iteration}, PADDLE AT: ${paddleAt}`);
                 }
 
                 // readline.cursorTo(process.stdout, 70, o);
@@ -436,12 +401,13 @@ function render(): void {
             if (o >= 50) {
                 o = 1;
             }
+            readline.cursorTo(process.stdout, 1, 31);
+            process.stdout.write(`${iteration}`);
             if (x === -1) {
                 readline.cursorTo(process.stdout, 1, 30);
                 process.stdout.write(`SCORE: ${arcade2.outputs[index]}`);
                 maxScore = Math.max(maxScore, arcade2.outputs[index]);
-                readline.cursorTo(process.stdout, 50, o++);
-                process.stdout.write(`${arcade2.outputs[index]}`);
+                scores.push(arcade2.outputs[index]);
             } else {
                 readline.cursorTo(process.stdout, x + 1, y + 1);
                 process.stdout.write(
