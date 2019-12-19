@@ -280,21 +280,21 @@ class IntCode {
     }
 }
 
-// console.log('part 1');
+console.log('part 1');
 
-// const arcade1: IntCode = new IntCode(0, [...INPUT_13]);
+const arcade1: IntCode = new IntCode(0, [...INPUT_13]);
 
-// arcade1.run(0);
+arcade1.run(0);
 
-// let countBlocks: number = 0;
+let countBlocks: number = 0;
 
-// for (let i = 2; i < arcade1.outputs.length; i += 3) {
-//     if (arcade1.outputs[i] === 2) {
-//         countBlocks++;
-//     }
-// }
+for (let i = 2; i < arcade1.outputs.length; i += 3) {
+    if (arcade1.outputs[i] === 2) {
+        countBlocks++;
+    }
+}
 
-// console.log(countBlocks);
+console.log(countBlocks);
 
 console.log('part 2');
 
@@ -307,7 +307,6 @@ const arcade2: IntCode = new IntCode(0, [...memory]);
 let input: number = 0;
 
 const readline = require('readline');
-let rendering: boolean;
 
 setInterval(() => {
     if (!arcade2.terminate) {
@@ -321,35 +320,14 @@ setInterval(() => {
 }, 300);
 
 let index = 0;
-let o: number = 1;
 let maxScore: number = 0;
 
 function render(): void {
     let x: number = 0;
     let y: number = 0;
 
-    rendering = true;
-
     while (index < arcade2.outputs.length) {
         if ((index + 1) % 3 === 0) {
-            // o = o >= 50 ? 0 : o + 1;
-            // readline.cursorTo(process.stdout, 50, o);
-            // process.stdout.write(`${arcade2.outputs[index - 2]}, ${arcade2.outputs[index - 1]}, ${arcade2.outputs[index]}`);
-            if (arcade2.outputs[index] === 3) {
-                readline.cursorTo(process.stdout, 50, o);
-                process.stdout.write('            ');
-                readline.cursorTo(process.stdout, 50, o++);
-                process.stdout.write(`PADDLE: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
-            }
-            if (arcade2.outputs[index] === 4) {
-                readline.cursorTo(process.stdout, 70, o);
-                process.stdout.write('            ');
-                readline.cursorTo(process.stdout, 70, o++);
-                process.stdout.write(`BALL: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
-            }
-            if (o >= 50) {
-                o = 1;
-            }
             if (x === -1) {
                 readline.cursorTo(process.stdout, 1, 30);
                 process.stdout.write(`SCORE: ${arcade2.outputs[index]}`);
@@ -375,8 +353,6 @@ function render(): void {
         }
         index++;
     }
-
-    rendering = false;
 }
 
 readline.emitKeypressEvents(process.stdin);
