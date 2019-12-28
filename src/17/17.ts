@@ -50,7 +50,11 @@ class OpCodeOutput implements OpCode {
     }
 
     public exec(): number {
-        console.log(`output ${String.fromCharCode(this.value)}`);
+        if (this.intcode.ascii === true) {
+            console.log(`output ${String.fromCharCode(this.value)}`);
+        } else {
+            console.log(`output ${this.value}`);
+        }
         this.intcode.outputs.push(this.value);
         return this.value;
     }
@@ -133,6 +137,7 @@ class OpCodeParams implements OpCode {
             if (this.intcode.inputConsumed) {
                 throw new InputConsumedException();
             } else {
+                this.intcode.inputConsumed = true;
                 this.op = new OpCodeInput(this.getInputArg(prm, 1), this.input);
             }
         } else if (opCode === 4) {
@@ -194,6 +199,7 @@ class IntCode {
     public outputs: number[] = [];
     public terminate: boolean = false;
     public inputConsumed: boolean = false;
+    public ascii: boolean = true;
 
     constructor(public relativeBase: number, private internalMemory: number[]) {
     }
@@ -337,27 +343,31 @@ console.log(calibration);
 
 console.log('part 2');
 
-const A: string = 'L 6 R 12 L 4 L 6';
-const B: string = 'R 6 L 6 R 12';
-const C: string = 'L 6 L 10 L 10 R 6';
-const main: string = 'A B B C A B C A B C';
+const A: string = 'L,6,R,12,L,4,L,6';
+const B: string = 'R,6,L,6,R,12';
+const C: string = 'L,6,L,10,L,10,R,6';
+const main: string = 'A,B,B,C,A,B,C,A,B,C';
 
 const input: number[] = [...INPUT_17];
 input[0] = 2;
 
 const program: number[] = convert(main).concat(convert(A)).concat(convert(B)).concat(convert(C));
 program.push('n'.charCodeAt(0));
+program.push(10);
 
 console.log(program);
 const ascii2: IntCode  = new IntCode(0, input);
-program.forEach(p => {
+program.forEach((p, i) => {
     console.log(p);
+    if (i === program.length - 1) {
+        ascii2.ascii = false;
+    }
     ascii2.run(p);
 });
 console.log(ascii2.terminate);
 
 function convert(s: string): number[] {``
-    const r: number[] = s.replace(/\s/g, '-,-').split('-').map(m => !Number.isNaN(Number.parseInt(m)) ? Number.parseInt(m) : m.charCodeAt(0));
+    const r: number[] = [...s].map(m => m.charCodeAt(0));
     r.push(10);
     return r;
 }
