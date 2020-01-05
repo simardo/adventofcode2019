@@ -1,0 +1,69 @@
+== Hull Breach ==
+You got in through a hole in the floor here. To keep your ship from also freezing, the hole has been sealed.
+
+== Science Lab ==
+You see evidence here of prototype polymer design work.
+- klein bottle
+
+== Stables ==
+Reindeer-sized. They're all empty.
+- semiconductor
+
+== Kitchen ==
+Everything's freeze-dried.
+- sand
+
+== Hallway ==
+This area has been optimized for something; you're just not quite sure what.
+- escape pod
+
+== Navigation ==
+Status: Stranded. Please supply measurements from fifty stars to recalibrate.
+- astrolabe
+
+== Holodeck ==
+Someone seems to have left it on the Giant Grid setting.
+
+== Observatory ==
+There are a few telescopes; they're all bolted down, though.
+- shell
+
+== Sick Bay ==
+Supports both Red-Nosed Reindeer medicine and regular reindeer medicine.
+- giant electromagnet
+
+== Hot Chocolate Fountain ==
+Somehow, it's still working.
+- ornament
+
+== Gift Wrapping Center ==
+How else do you wrap presents on the go?
+
+== Security Checkpoint ==
+In the next room, a pressure-sensitive floor will verify your identity.
+
+== Engineering ==
+You see a whiteboard with plans for Springdroid v2.
+- photons
+
+== Passages ==
+They're a little twisty and starting to look all alike.
+- molten lava
+
+== Warp Drive Maintenance ==
+It appears to be working normally.
+
+== Corridor ==
+The metal walls and the metal floor are slightly different colors. Or are they?
+- infinite loop
+
+== Crew Quarters ==
+The beds are all too small for you.
+- dehydrated water
+
+== Arcade ==
+None of the cabinets seem to have power.
+
+== Storage ==
+The boxes just contain more boxes.  Recursively.
+- mutex
