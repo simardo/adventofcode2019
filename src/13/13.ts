@@ -308,85 +308,19 @@ let input: number = 0;
 
 const readline = require('readline');
 
-const moves: { [key: number]: number } = {};
-moves[3] = 1;
-// moves[9] = 0; // 23
-// moves[8] = 1;
-moves[15] = 0; // 29
-moves[20] = 1;
-moves[21] = 0; // 30
-moves[45] = 1;
-moves[47] = 0; // 32
-moves[175] = -1;
-moves[183] = 0; // 24
-moves[243] = -1;
-moves[245] = 0; // 22
-moves[264] = 1;
-moves[265] = 0; // 23
-moves[292] = 1;
-moves[299] = 0; // 30
-moves[303] = -1;
-moves[313] = 0; // 20
-moves[373] = 1;
-moves[383] = 0; // 30
-moves[515] = 1;
-moves[517] = 0; // 32
-moves[699] = -1;
-moves[705] = 0; // 26
-moves[797] = -1;
-moves[805] = 0; // 18
-moves[859] = 1;
-moves[861] = 0; // 20
-moves[947] = -1;
-moves[963] = 0; // 4
-moves[1019] = 1;
-moves[1039] = 0; // 24
-moves[1190] = -1;
-moves[1191] = 0; // 24
-moves[1207] = -1;
-moves[1208] = 0; // 22
-moves[1227] = 1;
-moves[1229] = 0; // 24
-moves[1245] = -1;
-moves[1249] = 0; // 20
-moves[1269] = 1;
-moves[1271] = 0; // 22
-moves[1545] = -1;
-moves[1559] = 0; // 8
-moves[1620] = 1;
-moves[1621] = 0; // 9
-moves[1624] = -1;
-moves[1631] = 0; // 2
-moves[1646] = 1;
-moves[1663] = 0; // 18
-moves[1700] = 1;
-moves[1701] = 0; // 18
-moves[1900] = 1;
-moves[1901] = 0; // 21
-moves[1984] = -1;
-moves[1985] = 0; // 20
-
 let iteration: number = 0;
 const scores: number[] = [];
 
 function loop(t: number) {
     setTimeout(() => {
         if (!arcade2.terminate) {
-            const m: number = moves[iteration];
-            if (m !== undefined) {
-                input = m;
-            }
+            input = o < paddleAt ? -1 : o > paddleAt ? 1 : 0;
             arcade2.run(input);
             iteration++;
-            const max: number = Object.keys(moves).reduce((m, v) => Math.max(m, Number.parseInt(v)), 0) - 3;
-            // if (iteration > max + 3) {
-            //     input = 0;
-            // }
             render();
-            loop(iteration >= max ? 150 : 1);
+            loop(1);
         } else {
             console.log('GAME OVER', maxScore);
-            // console.log(scores.reverse());
             process.exit();
         }
     }, t);
@@ -395,10 +329,10 @@ function loop(t: number) {
 loop(5);
 
 let index = 0;
-let o: number = 0;
+let o: number = 17;
 let maxScore: number = 0;
 
-let paddleAt: number;
+let paddleAt: number = 17;
 
 function render(): void {
     let x: number = 0;
@@ -406,31 +340,11 @@ function render(): void {
 
     while (index < arcade2.outputs.length) {
         if ((index + 1) % 3 === 0) {
-            if (arcade2.outputs[index] === 0) {
-                // readline.cursorTo(process.stdout, 90, o++);
-                // process.stdout.write(`RESET: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
-            }
             if (arcade2.outputs[index] === 3) {
                 paddleAt = x;
-
-                // readline.cursorTo(process.stdout, 50, o);
-                // process.stdout.write('            ');
-                // readline.cursorTo(process.stdout, 50, o++);
-                // process.stdout.write(`PADDLE: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
             }
             if (arcade2.outputs[index] === 4) {
-                if (y === 21) {
-                    readline.cursorTo(process.stdout, 1, 31);
-                    process.stdout.write(`TARGET: ${x} - ${iteration}, PADDLE AT: ${paddleAt}`);
-                }
-
-                // readline.cursorTo(process.stdout, 70, o);
-                // process.stdout.write('               ');
-                // readline.cursorTo(process.stdout, 70, o++);
-                // process.stdout.write(`BALL: ${arcade2.outputs[index - 2]},${arcade2.outputs[index - 1]}`);
-            }
-            if (o >= 50) {
-                o = 1;
+                o = x;
             }
             readline.cursorTo(process.stdout, 1, 31);
             process.stdout.write(`${iteration}`);
