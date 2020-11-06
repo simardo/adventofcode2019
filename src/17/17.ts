@@ -366,7 +366,7 @@ program.forEach((p, i) => {
 });
 console.log(ascii2.terminate);
 
-function convert(s: string): number[] {``
+function convert(s: string): number[] {
     const r: number[] = [...s].map(m => m.charCodeAt(0));
     r.push(10);
     return r;
