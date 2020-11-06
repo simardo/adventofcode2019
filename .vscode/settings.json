@@ -2,6 +2,7 @@
     "editor.detectIndentation": false,
     "files.exclude": {
         "**/*/*.js": true,
+        "**/*/*.map": true,
         "**/types/": true,
         "**/node_modules/": true
     },
