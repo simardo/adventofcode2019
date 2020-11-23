@@ -126,3 +126,20 @@ cut 3
 deal with increment 9
 deal with increment 3
 cut -1`;
+
+export const INPUT_22_V: string =
+    `deal with increment 32
+deal with increment 7
+deal with increment 20
+cut -12
+cut 33
+cut 9888
+deal with increment 2
+cut -120
+cut 3
+cut 988
+deal with increment 7
+cut -12
+cut 33
+cut 9888
+deal with increment 6`;
